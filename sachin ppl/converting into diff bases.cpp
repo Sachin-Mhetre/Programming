@@ -73,7 +73,7 @@ int decimaltohexadecimal(){
 }
 
 int hexadecimaltodecimal(){
-    int hex,last_digit,base = 0,dec_value,temp;
+    int hex,last_digit,base = 0,dec_value = 0,temp=0;
 	printf("Enter the octal number :");
 	scanf("%d",&hex);
 	while(hex){
@@ -86,10 +86,13 @@ int hexadecimaltodecimal(){
 
 }
 int main(){
+	printf("!--------Welcome to my base converter--------! \n");
 	int n;
-	printf("1) Decimal to binary \n2) Binary to decimal \n3) Decimal to octal \n4) Octal to decimal \n5) Decimal to Hexadecimal \n6) Hexadecimal to decimal \n");
+	printf("1) Decimal to binary \n2) Binary to decimal \n3) Decimal to octal \n4) Octal to decimal \n5) Decimal to Hexadecimal \n6) Hexadecimal to decimal \n7) exit \n");
 	printf("Enter the option you want to choose : ");
 	scanf("%d",&n);
+	while(n != 7){
+
 	switch(n){
 	
 		case 1 :
@@ -110,10 +113,13 @@ int main(){
 		case 6 :
 		    hexadecimaltodecimal();
 			break;
+		case 7 :
+		    break;	
 		default :
 		   printf("Invalid option");
 		   break;
-		   	
+
+}
 }
    return 0;		   			     	
 }
