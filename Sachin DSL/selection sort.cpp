@@ -18,9 +18,6 @@ void bubblesort(){
    printf("\n");
 	
 }
-void binarysort(){
-	
-}
 
 void selectionsort(){
 	int a[7] = {8,9,6,7,6,3,68};
@@ -48,16 +45,13 @@ void selectionsort(){
 int main(){
 	int ops;
 	printf("!-----Welcome-----!\n");\
-	printf("1) Bubble Sort \n2) Binary Sort \n3) Selection Sort \n");
+	printf("1) Bubble Sort \n2) Selection Sort \n");
 	scanf("%d",&ops);
 	switch(ops){
 		case 1:
 			bubblesort();
 			break;
 		case 2:
-		    binarysort();
-			break;
-		case 3:
 		    selectionsort();
 			break;
 		default:
