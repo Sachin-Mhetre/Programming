@@ -3,7 +3,19 @@
 void bubblesort(){
 	int a[7] = {8,7,6,9,3,1,5};
 	int i,j,min,temp=0;
-	for(i = 0 ; )
+	for(i = 0 ; i < 6 ; i++){
+		for(j = 0 ; j < 7-i-1;j++){
+			if(a[j]>a[j+1]){
+				int temp = a[j];
+				a[j] = a[j+1];
+				a[j+1] = temp;
+			}
+		}
+	}
+	for(int i = 0; i < 7; i++) {
+    printf("%d  ", a[i]);
+   }
+   printf("\n");
 	
 }
 void binarysort(){
