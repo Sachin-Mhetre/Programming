@@ -132,7 +132,7 @@ int main(){
            insertatpos();
            break;
         case 6:
-           insertafterpos
+           insertafterpos();
            break;
         case 7:
            break;
