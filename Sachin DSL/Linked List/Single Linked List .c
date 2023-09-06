@@ -1,4 +1,3 @@
-// Online C compiler to run C program online
 #include <stdio.h>
 #include<stdlib.h>
 
@@ -112,6 +111,19 @@ struct node * sort(struct node * head){
     return head;
 };
 
+struct node * reverse(struct node * head){
+  struct node * prev , *current,*nextnode;  
+  prev = 0;
+  current = nextnode = head;
+  while(nextnode!=NULL){
+      nextnode = nextnode->next;
+      current->next = prev;
+      prev = current;
+      current = nextnode;
+  }
+  head = prev;
+};
+
 int main() {
     int ops;
     struct node * head;
@@ -129,7 +141,7 @@ int main() {
     
     third -> data = 98;
     third -> next = NULL;
-    printf("1) Insert at begin \n2) Insert at index \n3) Insert at end \n4) Delete at Begin \n5) Delete at index \n6) Delete at end \n7) Search \n8) Sort \n9) Exit \n");
+    printf("1) Insert at begin \n2) Insert at index \n3) Insert at end \n4) Delete at Begin \n5) Delete at index \n6) Delete at end \n7) Search \n8) Sort \n9) reverse \n10) Exit \n");
     scanf("%d",&ops);
     switch(ops){
             case 1:
@@ -165,6 +177,10 @@ int main() {
                break;
                
             case 9:
+               head = reverse(head);
+               break;
+            
+            case 10 :
                break;
     }
 
