@@ -1,163 +1,158 @@
+// Online C compiler to run C program online
 #include <stdio.h>
-#include <stdlib.h>
+#include<stdlib.h>
 
-struct node {
+struct node{
     int data;
-    struct node* left;
-    struct node* right;
+    struct node *left;
+    struct node *right;
 };
 
-struct node* create() {
+struct node * root = NULL;
+
+struct node* create(){
     int x;
-    struct node* newnode = (struct node*)malloc(sizeof(struct node));
-    printf("Enter data (-1 for no node): ");
-    scanf("%d", &x);
-    if (x == -1) {
-        free(newnode); // Free the allocated memory
+    struct node * newnode = (struct node *)malloc(sizeof(struct node));
+    printf("Enter data (-1 for quit) : ");
+    scanf("%d",&x);
+    if(x==-1){
+        free(newnode);
         return NULL;
     }
     newnode->data = x;
-    printf("Enter left child of %d: ", x);
+    printf("Enter the data for left child of %d",x);
     newnode->left = create();
-    printf("Enter right child of %d: ", x);
+    printf("Enter the data for right child of %d ",x);
     newnode->right = create();
     return newnode;
 }
 
-void preorder(struct node* root) {
-    if (root == NULL) {
-        return;
-    }
-    printf("%d ", root->data);
-    preorder(root->left);
-    preorder(root->right);
-}
-
-void inorder(struct node* root) {
-    if (root == NULL) {
+void inorder(struct node * root){
+    if(root==NULL){
         return;
     }
     inorder(root->left);
-    printf("%d ", root->data);
+    printf("%d ",root->data);
     inorder(root->right);
 }
 
-void postorder(struct node* root) {
-    if (root == NULL) {
+void preorder(struct node * root){
+    if(root==NULL){
         return;
     }
-    postorder(root->left);
-    postorder(root->right);
-    printf("%d ", root->data);
+    printf("%d ",root->data);
+    inorder(root->left);
+    inorder(root->right);
 }
 
-struct node* deletenode(struct node* root, int k) {
-     // Base case 1
-    if (root == NULL){
+void postorder(struct node * root){
+    if(root==NULL){
+        return;
+    }
+    inorder(root->left);
+    inorder(root->right);
+    printf("%d ",root->data);
+}
+
+struct node* insert(struct node * root , int key){
+    if(root==NULL){
+        struct node * newnode = (struct node*)malloc(sizeof(struct node));
+        newnode->data = key;
+        newnode->left=newnode->right=NULL;
+        return newnode;
+    }
+    if(key<root->data){
+        root->left = insert(root->left,key);
+    }else if(key>root->data){
+        root->right = insert(root->right,key);
+    }
+    return root;
+}
+
+struct node * delete(struct node * root , int key){
+    //case 1 : non child
+    if(root==NULL){
+        return root;
+    }
+    if(root->data>key){
+        root->left = delete(root->left,key);
+        return root;
+    }else if(root->data<key){
+        root->root = delete(root->right,key);
         return root;
     }
     
-    if (root->data > k) {
-        root->left = deletenode(root->left, k);
-        return root;
-    }
-    else if (root->data < k) {
-        root->right = deletenode(root->right, k);
-        return root;
-    }
- 
-    // Case 2: one child
-    if (root->left == NULL) {
-        struct node* temp = root->right;
+    //case 2: one child
+    if(root->left==NULL){
+        struct node * temp = root->right;
+        free(root);
+        return temp;
+    }else if(root->right == NULL){
+        struct node * temp = root->left;
         free(root);
         return temp;
     }
-    else if (root->right == NULL) {
-        struct node* temp = root->left;
-        free(root);
-        return temp;
-    }
- 
-    //Case 3: Both child
-    else {
-        struct node* succParent = root;
- 
-        // Find element
-        struct node* succ = root->right;
-        while (succ->left != NULL) {
+    
+    else{
+        struct node * succParent = root;
+        struct node * succ = root->right;
+        while(root->left!=NULL){
             succParent = succ;
-            succ = succ->left;
+            succ =succ->left;
         }
-        if (succParent != root)
+        if(succParent != root){
             succParent->left = succ->right;
-        else
+        }
+        else{
             succParent->right = succ->right;
             root->data = succ->data;
             free(succ);
+        }
         return root;
     }
-
     return root;
 }
 
 int main() {
     int ops;
-    printf("1) Create\n2) Preorder\n3) Inorder\n4) Postorder\n5) Remove node\n6) Quit\n");
-    scanf("%d", &ops);
-    struct node* root = NULL;
-
-    while (ops != 6) {
-        switch (ops) {
+    printf("1) Create \n2) Inorder \n3) Preorder \n4) Postorder \n5) Insert \n6) Delete \n7) Quit \n");
+    while(ops!=6){
+        printf("\nEnter the choice : ");
+        scanf("%d",&ops);
+        switch(ops){
             case 1:
-                root = create();
-                break;
+            root = create();
+            break;
+            
             case 2:
-                if (root != NULL) {
-                    printf("Preorder traversal: ");
-                    preorder(root);
-                    printf("\n");
-                } else {
-                    printf("Tree is empty\n");
-                }
-                break;
+            inorder(root);
+            break;
+            
             case 3:
-                if (root != NULL) {
-                    printf("Inorder traversal: ");
-                    inorder(root);
-                    printf("\n");
-                } else {
-                    printf("Tree is empty\n");
-                }
-                break;
+            preorder(root);
+            break;
+            
             case 4:
-                if (root != NULL) {
-                    printf("Postorder traversal: ");
-                    postorder(root);
-                    printf("\n");
-                } else {
-                    printf("Tree is empty\n");
-                }
-                break;
+            postorder(root);
+            break;
+            
             case 5:
-                if (root != NULL) {
-                    int key;
-                    printf("Enter the node to delete: ");
-                    scanf("%d", &key);
-                    root = deletenode(root, key);
-                } else {
-                    printf("Tree is empty\n");
-                }
-                break;
+            int key;
+            printf("Enter data to be insert : ");
+            scanf("%d",&key);
+            root = insert(root,key);
+            break;
+            
             case 6:
-                break;
-            default:
-                printf("Invalid choice\n");
-                break;
+            int key;
+            printf("Enter data to be insert : ");
+            scanf("%d",&key);
+            root = delete(root,key)
+            break;
+            
+            case 7:
+            break;
         }
-
-        printf("Choice option: ");
-        scanf("%d", &ops);
     }
-
     return 0;
 }
